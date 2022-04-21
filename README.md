@@ -37,7 +37,7 @@ The user will be able to:
 
 ## ERD
 
-
+![ERD](images/bookmark_erd.png)
 
 ---
 
