@@ -4,7 +4,7 @@ from django.http import HttpResponse
 
 # Index view
 def index(request):
-    return HttpResponse("<h1>Bookmark root page, you made it!")
+    return render(request, "index.html")
 
 # Profile view
 def profile(request):
@@ -18,9 +18,8 @@ def bookshelf(request):
 def book(request):
     return HttpResponse("<h1>Book page!</h1>")
 
-# Book community view
-def book_comm(request):
-    return HttpResponse("<h1>Book community page!</h1>")
+# def book_comm(request):
+#     return HttpResponse("<h1>Book community page!</h1>")
 
 # Bookclub view
 def bookclub(request):
@@ -28,5 +27,6 @@ def bookclub(request):
 
 # Search view
 def search(request):
-    return HttpResponse("<h1>Search page!</h1")
+    return HttpResponse("<h1>Search page!</h1>")
 
+# Book community view
