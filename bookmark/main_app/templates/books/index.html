@@ -6,13 +6,9 @@
 {% block content %}
 
     {% for book in books %}
-        <p>Title: {{ book.title }}<p>
-        <p>Author: {{ book.author }}<p>
-        <p>Publication: {{ book.publication }}<p>
-        <p>ISBN: {{ book.isbn }}<p>
-        <p>Genre: {{ book.genre }}<p>
-        <hr />
-        <p>Description: {{ book.description }}</p>
+        <p><a class="book-title" href="{{ book.id }}">{{ book.title }}</a>
+            <span class="book-author">by {{ book.author }}</p>
+        p. {{ book.publication }} | ISBN: {{ book.isbn }} | {{ book.genre }}
         <hr />
     {% endfor %}
 

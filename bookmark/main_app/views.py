@@ -22,7 +22,7 @@ def bookshelf(request):
 
 # Book view
 def books_index(request):
-    books = Book.objects.all()
+    books = Book.objects.all().order_by("title")
     return render(request, "books/index.html", { "books": books })
 
 # Books detail view
