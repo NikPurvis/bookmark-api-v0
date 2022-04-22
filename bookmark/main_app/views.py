@@ -15,6 +15,10 @@ class Book:
         self.genre = genre
         self.olid = olid
 
+    def __str__(self):
+        return self.title
+
+
 books = [
     Book("The Shining", "Stephen King", "1977", "Jack Torrance's new job at the Overlook Hotel is the perfect chance for a fresh start. As the off-season caretaker at the atmospheric old hotel, he'll have plenty of time to spend reconnecting with his family and working on his writing. But as the harsh winter weather sets in, the idyllic location feels ever more remote...and more sinister. And the only one to notice the strange and terrible forces gathering around the Overlook is Danny Torrance, a uniquely gifted five-year-old.", "0451150325", "horror", "OL24219563M"),
     Book("A Wizard of EarthSea", "Ursula LeGuin", "1992", "Ged was the greatest sorcerer in Earthsea, but in his youth he was the reckless Sparrowhawk. In his hunger for power and knowledge, he tampered with long-held secrets and loosed a terrible shadow upon the world. This is the tumultuous tale of his testing, how he mastered the mighty words of power, tamed an ancient dragon, and crossed death's threshold to restore the balance.", "1680652109", "fantasy", "OL32560930M"),
