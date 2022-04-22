@@ -1,3 +1,5 @@
+<!-- main_app/templates/base.html -->
+
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -10,6 +12,9 @@
 	<body>
 		<div class="columns is-flex-direction-column is-fullheight-100vh">
 			<header class="column is-narrow">
+
+				<!-- ****** Nav Bar ****** -->
+				
 				<nav class="navbar is-warning" role="navigation" aria-label="main navigation">
 					<div class="navbar-brand">
 						<a class="navbar-item" href="/">
@@ -84,6 +89,9 @@
 				</nav>
 			</header>
 
+
+		<!-- ****** Main Content ****** -->
+
 		<div class="column">
 				<main class="container">
 						{% block content %}
@@ -92,11 +100,15 @@
 				</main>
 		</div>
 
+		<!-- ****** Footer ****** -->
+		
 		<footer class="footer has-background-warning column is-narrow">
 			<div class="content has-text-right has-text-dark">
 				<p class="foot-text">Bookmark, 2022</p>
 			</div>
 		</footer>
+
 	</div>
 </body>
 </html>
+
