@@ -63,7 +63,7 @@ class BookCreate(CreateView):
         # Save the object to the database
         self.object.save()
         # Redirect to its new detail page
-        return HttpResponseRedirect("/cats" + str(self.object.pk))
+        return HttpResponseRedirect("/books/" + str(self.object.pk))
 
 
 class BookUpdate(UpdateView):
@@ -73,7 +73,7 @@ class BookUpdate(UpdateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.save()
-        return HttpResponseRedirect("/cats" + str(self.object.pk))
+        return HttpResponseRedirect("/books/" + str(self.object.pk))
 
 
 class BookDelete(DeleteView):
