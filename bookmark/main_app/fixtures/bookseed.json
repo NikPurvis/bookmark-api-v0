@@ -2,6 +2,17 @@
     {
         "model": "main_app.Book",
         "fields": {
+        "title": "The Shining",
+        "author": "Stephen King",
+        "publication": "1977",
+        "description": "Jack Torrance's new job at the Overlook Hotel is the perfect chance for a fresh start. As the off-season caretaker at the atmospheric old hotel, he'll have plenty of time to spend reconnecting with his family and working on his writing. But as the harsh winter weather sets in, the idyllic location feels ever more remote...and more sinister. And the only one to notice the strange and terrible forces gathering around the Overlook is Danny Torrance, a uniquely gifted five-year-old.",
+        "isbn": "0451150325",
+        "genre": "horror",
+        "olid": "OL24219563M"
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
         "title": "A Wizard of EarthSea",
         "author": "Ursula LeGuin",
         "publication": "1992",
@@ -10,8 +21,7 @@
         "genre": "fantasy",
         "olid": "OL32560930M"
         }
-    },
-    {
+    },{
         "model": "main_app.Book",
         "fields": {
         "title": "Count of Monte Cristo",
@@ -22,8 +32,7 @@
         "genre": "action/adventure",
         "olid": "OL24277771M"
         }
-    },
-    {
+    },{
         "model": "main_app.Book",
         "fields": {
         "title": "Atonement",
@@ -34,8 +43,7 @@
         "genre": "contemporary fiction",
         "olid": "OL34972111M"
         }
-    },
-    {
+    },{
         "model": "main_app.Book",
         "fields": {
         "title": "The Dead Girls Club",
@@ -46,8 +54,7 @@
         "genre": "thriller",
         "olid": "OL27857138M"
         }
-    },
-    {
+    },{
         "model": "main_app.Book",
         "fields": {
         "title": "Mexican Gothic",
@@ -57,6 +64,215 @@
         "isbn": "9781529402681",
         "genre": "gothic fiction",
         "olid": "OL29541750M"
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "In the Woods",
+        "author": "Tana French",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "The House Next Door",
+        "author": "Anne Rivers Siddons",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "The Killer Wore Leather",
+        "author": "Laura Antoneiu",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "The Likeness",
+        "author": "Tana French",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "The Secret History",
+        "author": "Donna Tartt",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "The Dwelling",
+        "author": "Susie Moloney",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "Feed",
+        "author": "Mira Grant",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "If it Bleeds",
+        "author": "Stephen King",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "A Beautiful Poison",
+        "author": "Lydia Kang",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "This House is Haunted",
+        "author": "John Boyne",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "East of Eden",
+        "author": "John Steinbeck",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "Fifteen Dogs",
+        "author": "Andre Alexis",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "It",
+        "author": "Stephen King",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "Into the Drowning Deep",
+        "author": "Mira Grant",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "Gideon the Ninth",
+        "author": "Tamsyn Muir",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "The Wild Iris",
+        "author": "Louise Gluck",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "Doctor Sleep",
+        "author": "Stephen King",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "They Shoot Horses, Don't They?",
+        "author": "Horace McCoy",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
+        }
+    },{
+        "model": "main_app.Book",
+        "fields": {
+        "title": "My Cousin Rachel",
+        "author": "Daphne du Maurier",
+        "publication": "",
+        "description": "",
+        "isbn": "",
+        "genre": "",
+        "olid": ""
         }
     }
 ]
