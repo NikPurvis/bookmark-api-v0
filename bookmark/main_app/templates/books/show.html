@@ -13,5 +13,13 @@
         <hr />
         <p>Description: {{ book.description }}</p>
         <hr />
+        <a class="button is-success is-responsive"
+            href="{% url "book_update" book.id %}">
+            Update {{ book }}</a>
+        <a class="button is-danger is-responsive"
+            href="{% url "book_delete" book.id %}">
+            <span>Delete {{ book }}</span>
+            <span class="icon is-small"><i class="fas fa-times"></i></span>
+        </a>
 
 {% endblock %}
