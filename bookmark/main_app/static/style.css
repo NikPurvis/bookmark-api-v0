@@ -1,4 +1,12 @@
+html, body {
+    min-height: 100% !important;
+    height: auto !important;
+    /* height: 100% !important; */
+}
+
 body {
+    display: flex !important;
+    flex-direction: column !important;
     background-color: steelblue;
     color: whitesmoke;
 }
@@ -7,6 +15,18 @@ body {
     height:100vh;
 } */
 
-footer {
-    padding: 1rem 1.5rem 1rem !important;
+.content {
+    flex: 1 0 auto !important;
 }
+
+footer {
+    flex-shrink: 0 !important;
+    padding: 1rem 1.5rem 1rem !important;
+    color: black !important;
+    background: yellow !important;
+}
+
+/* .footer {
+    flex-shrink: 0 !important;
+    color: black !important;
+} */
