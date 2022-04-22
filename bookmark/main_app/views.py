@@ -56,8 +56,8 @@ def bookshelf(request):
     return HttpResponse("<h1>Bookshelf page!</h1>")
 
 # Book view
-def book(request):
-    return HttpResponse("<h1>Book page!</h1>")
+def books_index(request):
+    return render(request, "books/index.html", { "books": books })
 
 # Bookclub view
 def bookclub(request):
