@@ -1,0 +1,17 @@
+<!-- main_app/templates/index.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+        <p>Title: {{ book.title }}<p>
+        <p>Author: {{ book.author }}<p>
+        <p>Publication: {{ book.publication }}<p>
+        <p>ISBN: {{ book.isbn }}<p>
+        <p>Genre: {{ book.genre }}<p>
+        <hr />
+        <p>Description: {{ book.description }}</p>
+        <hr />
+
+{% endblock %}

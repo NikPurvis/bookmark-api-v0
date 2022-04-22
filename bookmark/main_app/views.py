@@ -25,6 +25,11 @@ def books_index(request):
     books = Book.objects.all()
     return render(request, "books/index.html", { "books": books })
 
+# Books detail view
+def books_show(request, book_id):
+    book = Book.objects.get(id=book_id)
+    return render(request, "books/show.html", { "book": book })
+
 # Bookclub view
 def bookclub(request):
     return HttpResponse("<h1>Bookclub page!</h1>")
