@@ -27,15 +27,23 @@
 					<div id="navbarBasicExample" class="navbar-menu">
 						<div class="navbar-start">
 							<a class="navbar-item" href="/">Home</a>
-							<a class="navbar-item" href="/profile">Profile</a>
 							<a class="navbar-item" href="/books">Book List</a>
-							<a class="navbar-item" href="/bookshelf">Bookshelf</a>
-							<a class="navbar-item" href="/bookclub">Book Club</a>
+
+							<!-- Hide user-specific navbar elements if the user is not logged in -->
+							{% if user.is_authenticated %}
+								<a class="navbar-item" href="/user/{{ user.username }}">Profile</a>
+								<a class="navbar-item" href="/bookshelf">Bookshelf</a>
+								<a class="navbar-item" href="/bookclub">Book Club</a>
+							{% endif %}
+
 							<a class="navbar-item" href="/search">Search</a>
 							<div class="navbar-item has-dropdown is-hoverable">
 								<a class="navbar-link">More</a>
 								<div class="navbar-dropdown">
-									<a class="navbar-item" href="/books/create">Add a new book</a>
+									<!-- Hide adding a new book if user is not logged in -->
+									{% if user.is_authenticated %}
+										<a class="navbar-item" href="/books/create">Add a new book</a>
+									{% endif %}
 									<hr class="navbar-divider">
 									<a class="navbar-item">Report an issue</a>
 								</div>
@@ -46,11 +54,12 @@
 					<div class="navbar-end">
 						<div class="navbar-item">
 							<div class="buttons">
+								<!-- Button visibility dependant on whether the user is logged in or not -->
 								{% if user.is_authenticated %}
 								<a class="button is-danger" href="/logout">
 									<strong>Logout</strong></a>
 								{% else %}	
-									<a class="button is-primary">
+									<a class="button is-primary" href="/signup">
 										<strong>Sign up</strong></a>
 										<a class="button is-light" href="/login">
 											Log in</a>

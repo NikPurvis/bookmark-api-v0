@@ -31,6 +31,7 @@ def index(request):
 def profile(request, username):
     user = User.objects.get(username=username)
     # review = Review.objects.filter(user=user)
+    
     return render(request, "profile.html", { "username": username })
     # , "review": reviews
 
@@ -83,8 +84,7 @@ def login_view(request):
                     # Use Django's built-in login function
                     login(request, user)
                     # print(f"req, user: {request}/{user}")
-                    # return HttpResponseRedirect("/user/" + str(user.username))
-                    return HttpResponseRedirect("/")
+                    return HttpResponseRedirect("/user/" + str(user.username))
                 else:
                     print("The account has been disabled.")
             else:
