@@ -8,7 +8,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import authenticate, login, logout
 
 # Import models
-from .models import Book
+from .models import Book, Review
+from django.contrib.auth.models import User
 # Import forms
 from .forms import LoginForm
 
@@ -17,14 +18,20 @@ from .forms import LoginForm
 # They're functions that are called by main_app's urls.py file.
 # Those urls are registered in the project's (bookmark) urls.py.
 
+##################
+#  VIEWS
+##################
 
 # Index view
 def index(request):
     return render(request, "index.html")
 
 # Profile view
-def profile(request):
-    return HttpResponse("<h1>Profile page!</h1>")
+def profile(request, username):
+    user = User.objects.get(username=username)
+    # review = Review.objects.filter(user=user)
+    return render(request, "profile.html", { "username": username })
+    # , "review": reviews
 
 # Bookshelf view
 def bookshelf(request):
@@ -53,6 +60,64 @@ def search(request):
 # def book_comm(request):
 #     return HttpResponse("<h1>Book community page!</h1>")
 
+# login view
+def login_view(request):
+    # We can use the same view for multiple HTTP requests
+    # This can be doen with a simple if statement
+    if request.method == "POST":
+        # handle post request
+        # We want to authentic the user with the username and password
+        form = LoginForm(request.POST)
+        # Validate the form data
+        if form.is_valid():
+            # get the username and password and save them to variables
+            u = form.cleaned_data["username"]
+            p = form.cleaned_data["password"]
+            # We use Django's built-in authenticate method
+            user = authenticate(username = u, password = p)
+            # If you found a user with matching credentials
+            if user is not None:
+                # If the user hasn't been disabled by admin
+                if user.is_active:
+                    # Use Django's built-in login function
+                    login(request, user)
+                    print(f"req, user: {request}/{user}")
+                    # return HttpResponseRedirect("/user/" + str(user.username))
+                    return HttpResponseRedirect("/")
+                else:
+                    print("The account has been disabled.")
+            else:
+                print("The username or password is incorrect.")
+    else:
+        # The request is a GET, we render the login page
+        form = LoginForm()
+        return render(request, "auth/login.html", { "form": form })
+
+# logout view
+def logout_view(request):
+    print(f"request, user: {request}, {request.user}")
+    logout(request)
+    return HttpResponseRedirect("/")
+
+# Signup view
+def signup_view(request):
+    # If the request is a POST, sign them up
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return HttpResponseRedirect("/user/" + str(user.username))
+        
+    # If the request is a GET, show the form.
+    else:
+        form = UserCreationForm()
+        return render(request, "signup.html", { "form": form })
+
+
+##################
+#  CLASSES
+##################
 
 # Defining a class to create books using Django's built-in methods
 class BookCreate(CreateView):
@@ -85,58 +150,3 @@ class BookDelete(DeleteView):
     model = Book
     success_url = "/books"
 
-
-# login view
-def login_view(request):
-    # We can use the same view for multiple HTTP requests
-    # This can be doen with a simple if statement
-    if request.method == "POST":
-        # handle post request
-        # We want to authentic the user with the username and password
-        form = LoginForm(request.POST)
-        # Validate the form data
-        if form.is_valid():
-            # get the username and password and save them to variables
-            u = form.cleaned_data["username"]
-            p = form.cleaned_data["password"]
-            # We use Django's built-in authenticate method
-            user = authenticate(username = u, password = p)
-            # If you found a user with matching credentials
-            if user is not None:
-                # If the user hasn't been disabled by admin
-                if user.is_active:
-                    # Use Django's built-in login function
-                    login(request, user)
-                    # return HttpResponseRedirect("/user/" + str(user.username))
-                    return HttpResponseRedirect("/")
-                else:
-                    print("The account has been disabled.")
-            else:
-                print("The username or password is incorrect.")
-    else:
-        # The request is a GET, we render the login page
-        form = LoginForm()
-        return render(request, "auth/login.html", { "form": form })
-
-# logout view
-def logout_view(request):
-    # print("##### THIS IS THE REQUEST ######")
-    # print(request)
-    # print(request.user)
-    logout(request)
-    return HttpResponseRedirect("/cats/")
-
-# Signup view
-def signup_view(request):
-    # If the request is a POST, sign them up
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return HttpResponseRedirect("/user/" + str(user.username))
-        
-    # If the request is a GET, show the form.
-    else:
-        form = UserCreationForm()
-        return render(request, "signup.html", { "form": form })
