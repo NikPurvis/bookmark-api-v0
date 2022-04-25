@@ -102,6 +102,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# # Implement custom user model restrictions
+# AUTHENTICATION_BACKENDS = ("../backends.CaseInsensitiveModelBackend"),
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
