@@ -12,6 +12,7 @@ from .models import Book, Review
 from django.contrib.auth.models import User
 # Import forms
 from .forms import LoginForm
+from django.contrib.auth.forms import UserCreationForm
 
 
 # Views (like routes) created below.
@@ -81,7 +82,7 @@ def login_view(request):
                 if user.is_active:
                     # Use Django's built-in login function
                     login(request, user)
-                    print(f"req, user: {request}/{user}")
+                    # print(f"req, user: {request}/{user}")
                     # return HttpResponseRedirect("/user/" + str(user.username))
                     return HttpResponseRedirect("/")
                 else:
@@ -95,7 +96,7 @@ def login_view(request):
 
 # logout view
 def logout_view(request):
-    print(f"request, user: {request}, {request.user}")
+    # print(f"request, user: {request}, {request.user}")
     logout(request)
     return HttpResponseRedirect("/")
 
@@ -107,12 +108,11 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return HttpResponseRedirect("/user/" + str(user.username))
-        
+            return HttpResponseRedirect("/user/" + str(user.username))        
     # If the request is a GET, show the form.
     else:
         form = UserCreationForm()
-        return render(request, "signup.html", { "form": form })
+        return render(request, "auth/signup.html", { "form": form })
 
 
 ##################
