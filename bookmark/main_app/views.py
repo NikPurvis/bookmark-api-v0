@@ -8,7 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import authenticate, login, logout
 
 # Import models
-from .models import Book, Review
+from .models import Book, Bookshelf
 from django.contrib.auth.models import User
 # Import forms
 from .forms import LoginForm
@@ -31,13 +31,17 @@ def index(request):
 def profile(request, username):
     user = User.objects.get(username=username)
     # review = Review.objects.filter(user=user)
-    
+
     return render(request, "profile.html", { "username": username })
     # , "review": reviews
 
 # Bookshelf view
-def bookshelf(request):
-    return HttpResponse("<h1>Bookshelf page!</h1>")
+def bookshelf(request, username):
+    user = User.objects.get(username=username)
+    # books = Bookshelf.objects.filter(user=user)
+    # print(f"user: {user}")
+    # titles = Bookshelf.objects.filter(user_id = owner)
+    return render(request, "bookshelf.html", { "username": username })
 
 # Book view
 def books_index(request):

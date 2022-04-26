@@ -8,7 +8,7 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     path("user/<username>", views.profile, name="profile"),
-    path("bookshelf/", views.bookshelf, name="bookshelf"),
+    path("bookshelf/<username>", views.bookshelf, name="bookshelf"),
     path("books/", views.books_index, name="books_index"),
     path("books/<int:book_id>/", views.books_show, name="books_show"),
     path("books/create/", views.BookCreate.as_view(), name="book_create"),

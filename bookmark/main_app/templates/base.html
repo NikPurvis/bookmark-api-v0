@@ -32,7 +32,7 @@
 							<!-- Hide user-specific navbar elements if the user is not logged in -->
 							{% if user.is_authenticated %}
 								<a class="navbar-item" href="/user/{{ user.username }}">Profile</a>
-								<a class="navbar-item" href="/bookshelf">Bookshelf</a>
+								<a class="navbar-item" href="/bookshelf/{{ user.username }}">Bookshelf</a>
 								<a class="navbar-item" href="/bookclub">Book Club</a>
 							{% endif %}
 
