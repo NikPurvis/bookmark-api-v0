@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import authenticate, login, logout
 from django.db import connection
+from django.core.exceptions import ObjectDoesNotExist
 
 # Import models
 from .models import Book, Bookshelf
@@ -38,17 +39,34 @@ def profile(request, username):
 
 # Bookshelf view
 def bookshelf(request, username):
-    user = User.objects.get(username=username)
-    found_shelf = Bookshelf.objects.get(owner_id=user.id)
+    print("******************")
+    print(connection.queries)
+    print("******************")
+
+    try:
+        user = User.objects.get(username=username)
+        found_shelf = Bookshelf.objects.get(owner_id=user.id)
+        print ("yay!")
+    except Bookshelf.DoesNotExist:
+        print("******** uh oh no shelf")
+        user = User.objects.get(username=username)
+        new_shelf = Bookshelf.objects.create(
+            owner_id=user.id)
+        new_shelf.save()
+        found_shelf = new_shelf
+        print("******** made a new shelf!")
+
     shelf_books = Book.objects.filter(id__in = found_shelf.title.all().values_list('id'))
 
     print("******************")
     print(connection.queries)
     print("******************")
-    print("*** bookshelf ***")
-    print(found_shelf)
-    print(shelf_books)
-    
+    # print("*** bookshelf ***")
+    # print(found_shelf)
+    # print(shelf_books)    
+    print("*** SHELF ID ***")
+    print(found_shelf.owner_id)
+
     return render(request, "bookshelf.html", {
         "username": username,
         "bookshelf": shelf_books })
