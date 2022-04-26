@@ -3,6 +3,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.urls import reverse
 
 
 class Book(models.Model):
@@ -20,16 +21,18 @@ class Book(models.Model):
 
 class Bookshelf(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    title = models.ManyToManyField(Book)
-
+    title = models.ManyToManyField(Book, related_name="on_shelf")
     # Accounting for the difference in singular and plural forms of "bookshelf"
     class Meta:
         verbose_name = ("bookshelf")
         verbose_name_plural = ("bookshelves")
-
     # Custom display for bookshelf when shown in the admin panel, so it won't just be primary key numbers
     def __str__(self):
         return "Bookshelf for %s" % self.owner
+    # Defining the absolute url, which will allow reverse() and  enable linking without hard coding
+    def get_absolute_url(self):
+        return reverse("bookshelf_detail", kwargs={"bookshelf_id": self.id})
+
 
 
 class Review(models.Model):
@@ -56,5 +59,4 @@ class Review(models.Model):
             self.created = timezone.now()
         # Calls the "real" save method
         return super(User, self).save(*args, **kwargs)
-
 

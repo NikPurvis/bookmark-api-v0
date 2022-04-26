@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import authenticate, login, logout
+from django.db import connection
 
 # Import models
 from .models import Book, Bookshelf
@@ -38,10 +39,20 @@ def profile(request, username):
 # Bookshelf view
 def bookshelf(request, username):
     user = User.objects.get(username=username)
-    # books = Bookshelf.objects.filter(user=user)
-    # print(f"user: {user}")
-    # titles = Bookshelf.objects.filter(user_id = owner)
-    return render(request, "bookshelf.html", { "username": username })
+    found_shelf = Bookshelf.objects.get(owner_id=user.id)
+    shelf_books = Book.objects.filter(id__in = found_shelf.title.all().values_list('id'))
+
+    print("******************")
+    print(connection.queries)
+    print("******************")
+    print("*** bookshelf ***")
+    print(found_shelf)
+    print(shelf_books)
+    
+    return render(request, "bookshelf.html", {
+        "username": username,
+        "bookshelf": shelf_books })
+
 
 # Book view
 def books_index(request):

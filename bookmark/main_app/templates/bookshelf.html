@@ -4,11 +4,10 @@
 
     <h1>{{ username }}'s collection</h1>
 
-    {% comment %} {% for book in books %}
-    <a href="/{{ book.id }}">
-        <h3>{{ book.title }}</h3>
-    </a>
-    {% endfor %} {% endcomment %}
-
+    {% for book in bookshelf %}
+        <p><a href="{{ book.id }}">{{ book.title }}</a> by {{ book.author }}</p>
+    {% empty %}
+        <p>Go add some books!</p>
+    {% endfor %}
 
 {% endblock %}
