@@ -19,13 +19,15 @@ class Book(models.Model):
 
 
 class Bookshelf(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.ForeignKey(Book, on_delete=models.CASCADE)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    title = models.ManyToManyField(Book)
 
+    # Accounting for the difference in singular and plural forms of "bookshelf"
     class Meta:
         verbose_name = ("bookshelf")
         verbose_name_plural = ("bookshelves")
 
+    # Custom display for bookshelf when shown in the admin panel, so it won't just be primary key numbers
     def __str__(self):
         return "Bookshelf for %s" % self.owner
 
