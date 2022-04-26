@@ -43,30 +43,35 @@ def bookshelf(request, username):
     print(connection.queries)
     print("******************")
 
+    # Check to see if the user already has a bookshelf.
+    # If yes, move on.
     try:
         user = User.objects.get(username=username)
         found_shelf = Bookshelf.objects.get(owner_id=user.id)
-        print ("yay!")
+    # If no bookshelf object exists connected to the user...
     except Bookshelf.DoesNotExist:
-        print("******** uh oh no shelf")
-        user = User.objects.get(username=username)
+        # ...create a new bookshelf object...
         new_shelf = Bookshelf.objects.create(
             owner_id=user.id)
+        # ...save it...
         new_shelf.save()
+        # ...and give the pertinent object info to the variable we're working with for the rest of the view.
         found_shelf = new_shelf
-        print("******** made a new shelf!")
 
+    # Filters books to just those found on the user's bookshelf.
     shelf_books = Book.objects.filter(id__in = found_shelf.title.all().values_list('id'))
 
-    print("******************")
-    print(connection.queries)
-    print("******************")
-    # print("*** bookshelf ***")
-    # print(found_shelf)
-    # print(shelf_books)    
-    print("*** SHELF ID ***")
-    print(found_shelf.owner_id)
+    # Test stuff for seeing the SQL queries Django is running.
+    # print("******************")
+    # print(connection.queries)
+    # print("******************")
+    # # print("*** bookshelf ***")
+    # # print(found_shelf)
+    # # print(shelf_books)    
+    # print("*** SHELF ID ***")
+    # print(found_shelf.owner_id)
 
+    # Passes the filtered bookshelf to the template for display.
     return render(request, "bookshelf.html", {
         "username": username,
         "bookshelf": shelf_books })
