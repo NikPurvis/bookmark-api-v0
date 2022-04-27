@@ -85,14 +85,16 @@ def bookshelf_add(request, book_id):
     # found_shelf = Bookshelf.objects.get(owner_id=user_id)
 
     book_look = Book.objects.get(id=book_id)
-    shelf = book_look.on_shelf.all()
-    print(f"shelf: {shelf}")
+    shelf = book_look.on_shelf.filter(owner_id=user_id)
+    
+    if shelf:
+        print("yoooo")
+    else:
+        print("nope")
     
     # print(f"found_book: {found_book}")
 
     # shelf_books = Bookshelf.objects.filter(check_book__in = found_shelf)
-    
-    
 
 
     # user = User.objects.get(id=request.user.id)
