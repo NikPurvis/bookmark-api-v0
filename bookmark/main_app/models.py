@@ -16,12 +16,12 @@ class Book(models.Model):
     olid = models.CharField(max_length=25)
 
     def __str__(self):
-        return self.title
+        return f"ID {self.id} {self.title}"
 
 
 class Bookshelf(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    title = models.ManyToManyField(Book, related_name="on_shelf")
+    shelved = models.ManyToManyField(Book, related_name="on_shelf")
     # Accounting for the difference in singular and plural forms of "bookshelf"
     class Meta:
         verbose_name = ("bookshelf")

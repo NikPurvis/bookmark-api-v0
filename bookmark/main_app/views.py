@@ -37,6 +37,7 @@ def profile(request, username):
     return render(request, "profile.html", { "username": username })
     # , "review": reviews
 
+
 # Bookshelf view
 def bookshelf(request, username):
     print("******************")
@@ -59,7 +60,7 @@ def bookshelf(request, username):
         found_shelf = new_shelf
 
     # Filters books to just those found on the user's bookshelf.
-    shelf_books = Book.objects.filter(id__in = found_shelf.title.all().values_list('id'))
+    shelf_books = Book.objects.filter(id__in = found_shelf.title.all().values_list("id"))
 
     # Test stuff for seeing the SQL queries Django is running.
     # print("******************")
@@ -75,6 +76,42 @@ def bookshelf(request, username):
     return render(request, "bookshelf.html", {
         "username": username,
         "bookshelf": shelf_books })
+
+
+# Bookshelf add view
+def bookshelf_add(request, book_id):
+    user_id = request.user.id
+    # check_book = book_id
+    # found_shelf = Bookshelf.objects.get(owner_id=user_id)
+
+    book_look = Book.objects.get(id=book_id)
+    shelf = book_look.on_shelf.all()
+    print(f"shelf: {shelf}")
+    
+    # print(f"found_book: {found_book}")
+
+    # shelf_books = Bookshelf.objects.filter(check_book__in = found_shelf)
+    
+    
+
+
+    # user = User.objects.get(id=request.user.id)
+    # # book = Book.objects.get(id=book_id)
+    # # found_shelf = Bookshelf.objects.get(owner_id=user.id)
+    # shelf_books = Bookshelf.objects.filter(book_id__in = Bookshelf.objects.filter(owner_id=user.id))
+    # # .filter(book_id__in = Bookshelf.book_id)
+    # print(f"user: {user}")
+    # print(f"shelf_books: {shelf_books}")
+    
+    # if the book is on the bookshelf, show message
+    # if the book isn't on the shelf, add it to the shelf
+    
+
+    # print("** shelf_books")
+    # print(shelf_books)
+
+
+    return HttpResponse("<p>Bookshelf add</p>")
 
 
 # Book view
