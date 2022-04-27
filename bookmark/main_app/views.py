@@ -60,7 +60,7 @@ def bookshelf(request, username):
         found_shelf = new_shelf
 
     # Filters books to just those found on the user's bookshelf.
-    shelf_books = Book.objects.filter(id__in = found_shelf.title.all().values_list("id"))
+    shelf_books = Book.objects.filter(id__in = found_shelf.shelved.all().values_list("id"))
 
     # Test stuff for seeing the SQL queries Django is running.
     # print("******************")
@@ -80,38 +80,25 @@ def bookshelf(request, username):
 
 # Bookshelf add view
 def bookshelf_add(request, book_id):
+    # Get the user id from the request info (session)
     user_id = request.user.id
-    # check_book = book_id
-    # found_shelf = Bookshelf.objects.get(owner_id=user_id)
-
+    # Get the user's bookshelf
+    user_shelf = Bookshelf.objects.get(owner_id=user_id)
+    # Grab the book object we want to look up via the passed URL id parameter
     book_look = Book.objects.get(id=book_id)
-    shelf = book_look.on_shelf.filter(owner_id=user_id)
-    
-    if shelf:
-        print("yoooo")
+    # Use the book/bookshelf related_name (declared in model) to see if the book we grabbed in the previous query is on the user's shelf
+    # (Can't use user_shelf here because a single object isn't iterable, so we have to define the relationship again for the filter.)
+    check_shelf = book_look.on_shelf.filter(owner_id=user_id)
+
+    # Conditional for if the book is on the shelf or not.
+    # If it's on the user's shelf:
+    if check_shelf:
+        # Delete it from the shelf
+        user_shelf.shelved.remove(book_look)
+    # If not on the shelf:
     else:
-        print("nope")
-    
-    # print(f"found_book: {found_book}")
-
-    # shelf_books = Bookshelf.objects.filter(check_book__in = found_shelf)
-
-
-    # user = User.objects.get(id=request.user.id)
-    # # book = Book.objects.get(id=book_id)
-    # # found_shelf = Bookshelf.objects.get(owner_id=user.id)
-    # shelf_books = Bookshelf.objects.filter(book_id__in = Bookshelf.objects.filter(owner_id=user.id))
-    # # .filter(book_id__in = Bookshelf.book_id)
-    # print(f"user: {user}")
-    # print(f"shelf_books: {shelf_books}")
-    
-    # if the book is on the bookshelf, show message
-    # if the book isn't on the shelf, add it to the shelf
-    
-
-    # print("** shelf_books")
-    # print(shelf_books)
-
+        # Add it to the shelf
+        book_look.on_shelf.add(user_shelf)
 
     return HttpResponse("<p>Bookshelf add</p>")
 
