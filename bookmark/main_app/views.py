@@ -10,7 +10,7 @@ from django.db import connection
 from django.core.exceptions import ObjectDoesNotExist
 
 # Import models
-from .models import Book, Bookshelf
+from .models import Book, Bookshelf, Review
 from django.contrib.auth.models import User
 # Import forms
 from .forms import LoginForm
@@ -22,7 +22,7 @@ from django.contrib.auth.forms import UserCreationForm
 # Those urls are registered in the project's (bookmark) urls.py.
 
 ##################
-#  VIEWS
+##  VIEWS
 ##################
 
 # Index view
@@ -36,6 +36,26 @@ def profile(request, username):
 
     return render(request, "profile.html", { "username": username })
     # , "review": reviews
+
+
+# Book view
+def books_index(request):
+    books = Book.objects.all().order_by("title")
+    return render(request, "books/index.html", { "books": books })
+
+# Books detail view
+# Get an ID from the route parameter, defined in the url
+def books_show(request, book_id):
+    book = Book.objects.get(id=book_id)
+    return render(request, "books/show.html", { "book": book })
+
+# Bookclub view
+def bookclub(request):
+    return HttpResponse("<h1>Bookclub page!</h1>")
+
+# Search view
+def search(request):
+    return HttpResponse("<h1>Search page!</h1>")
 
 
 # Bookshelf view
@@ -66,11 +86,6 @@ def bookshelf(request, username):
     # print("******************")
     # print(connection.queries)
     # print("******************")
-    # # print("*** bookshelf ***")
-    # # print(found_shelf)
-    # # print(shelf_books)    
-    # print("*** SHELF ID ***")
-    # print(found_shelf.owner_id)
 
     # Passes the filtered bookshelf to the template for display.
     return render(request, "bookshelf.html", {
@@ -100,31 +115,29 @@ def bookshelf_add(request, book_id):
         # Add it to the shelf
         book_look.on_shelf.add(user_shelf)
 
-    return HttpResponse("<p>Bookshelf add</p>")
+    return HttpResponseRedirect("/bookshelf/" + str(request.user.username))
 
-
-# Book view
-def books_index(request):
-    books = Book.objects.all().order_by("title")
-    return render(request, "books/index.html", { "books": books })
-
-# Books detail view
-# Get an ID from the route parameter, defined in the url
-def books_show(request, book_id):
-    book = Book.objects.get(id=book_id)
-    return render(request, "books/show.html", { "book": book })
-
-# Bookclub view
-def bookclub(request):
-    return HttpResponse("<h1>Bookclub page!</h1>")
-
-# Search view
-def search(request):
-    return HttpResponse("<h1>Search page!</h1>")
 
 # Book community view
 # def book_comm(request):
 #     return HttpResponse("<h1>Book community page!</h1>")
+
+
+# Book Reviews view
+def reviews(request, book_id):
+    user = User.objects.get(id=request.user.id)
+    book_look = Book.objects.get(id=book_id)
+    reviews = Review.objects.all(title=book_id)
+
+    return render(request, "reviews.html", { 
+        "user": user,
+        "book": book_look,
+        "reviews": reviews } )
+
+
+#####################
+## AUTH
+#####################
 
 # login view
 def login_view(request):
@@ -180,10 +193,10 @@ def signup_view(request):
 
 
 ##################
-#  CLASSES
+##  FORMS
 ##################
 
-# Defining a class to create books using Django's built-in methods
+# Defining classes to create forms using Django's built-in methods
 class BookCreate(CreateView):
     # Bases the form on the books model
     model = Book
@@ -199,7 +212,6 @@ class BookCreate(CreateView):
         # Redirect to its new detail page
         return HttpResponseRedirect("/books/" + str(self.object.pk))
 
-
 class BookUpdate(UpdateView):
     model = Book
     fields = "__all__"
@@ -209,8 +221,29 @@ class BookUpdate(UpdateView):
         self.object.save()
         return HttpResponseRedirect("/books/" + str(self.object.pk))
 
-
 class BookDelete(DeleteView):
     model = Book
     success_url = "/books"
 
+
+class ReviewCreate(CreateView):
+    model = Review
+    fields = "__all__"
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.save()
+        return HttpResponseRedirect("books/<int:book_id>/reviews/" + str(self.object.pk))
+
+class ReviewUpdate(UpdateView):
+    model = Review
+    fields = "__all__"
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.save()
+        return HttpResponseRedirect("books/<int:book_id>/reviews/" + str(self.object.pk))
+
+class ReviewDelete(DeleteView):
+    model = Review
+    success_url = "/books/<int:book_id>/reviews/"

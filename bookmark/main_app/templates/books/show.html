@@ -1,4 +1,4 @@
-<!-- main_app/templates/index.html -->
+<!-- main_app/templates/books/index.html -->
 
 {% extends 'base.html' %}
 {% load static %}
@@ -15,14 +15,14 @@
         <hr />
         <a class="button is-link is-responsive"
             href="{% url "bookshelf_add" book.id %}">
-            Add</a>
+            Bookshelf</a>
+        <a class="button is-light is-responsive" href="{% url "reviews" book.id %}">Read Reviews</a>
         <a class="button is-success is-responsive"
             href="{% url "book_update" book.id %}">
-            Update</a>
+            Update {{ book.title }}</a>
         <a class="button is-danger is-responsive"
             href="{% url "book_delete" book.id %}">
-            <span>Delete</span>
-            <span class="icon is-small"><i class="fas fa-times"></i></span>
-        </a>
+            <span>Delete {{ book.title }}</span>
+            <span class="icon is-small"><i class="fas fa-times"></i></span></a>
 
 {% endblock %}

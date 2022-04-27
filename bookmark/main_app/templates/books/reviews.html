@@ -1,0 +1,25 @@
+<!-- main_app/templates/books/reviews.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <h1>REVIEWS VIEW</h1>
+    <p>Title: {{ book.title }}<p>
+    <p>Author: {{ book.author }}<p>
+    <p>Publication: {{ book.publication }}<p>
+    <p>ISBN: {{ book.isbn }}<p>
+    <p>Genre: {{ book.genre }}<p>
+    <hr />
+    <p>Description: {{ book.description }}</p>
+    <hr />
+    <h2>Reviews go here</h2>
+
+    {% for review in reviews %}
+        <li> {{ review.subject }} </li>
+
+    {% empty %}
+        <p>No reviews for book</p>        
+
+{% endblock %}

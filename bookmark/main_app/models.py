@@ -34,7 +34,6 @@ class Bookshelf(models.Model):
         return reverse("bookshelf_detail", kwargs={"bookshelf_id": self.id})
 
 
-
 class Review(models.Model):
     class Stars(models.IntegerChoices):
         STAR_0 = 0, "0 stars"
@@ -44,19 +43,15 @@ class Review(models.Model):
         STAR_4 = 4, "4 stars"
         STAR_5 = 5, "5 stars"
     
-    title = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book_reviewed = models.ForeignKey(Book, on_delete=models.CASCADE)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    created = models.DateTimeField(editable=False)
+    created = models.DateTimeField(auto_now_add=True)
     subject = models.CharField(max_length=255)
     text = models.TextField()
     star_rating = models.PositiveSmallIntegerField(choices=Stars.choices, help_text="How would you rate this book?")
-    finished = models.BooleanField
+    have_finished = models.BooleanField(default=False)
 
-    # Defining a custom save method to override the defaults and inject the data we want
-    def save(self, *args, **kwargs):
-        # Automatically populate the creation field with the current timestamp on creation (ie, the review doesn't have an id)
-        if not self.id:
-            self.created = timezone.now()
-        # Calls the "real" save method
-        return super(User, self).save(*args, **kwargs)
+    def __str__(self):
+        return self.subject
+
 

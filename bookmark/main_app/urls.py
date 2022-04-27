@@ -39,6 +39,14 @@ urlpatterns = [
     path("books/<int:book_id>/add", views.bookshelf_add, name="bookshelf_add"),
 
     #####################
+    ##  REVIEWS
+    #####################
+    path("books/<int:book_id>/reviews", views.reviews, name="reviews"),
+    path("books/<int:book_id>/review/create/", views.ReviewCreate.as_view(), name="review_create"),
+    path("books/<int:book_id>/review/<int:review_id>/update/", views.ReviewUpdate.as_view(), name="review_update"),
+    path("books/<int:book_id>/review/<int:review_id>/delete/", views.ReviewDelete.as_view(), name="review_delete"),
+
+    #####################
     ##  BOOKCLUB
     #####################
     path("bookclub/", views.bookclub, name="bookclub"),
