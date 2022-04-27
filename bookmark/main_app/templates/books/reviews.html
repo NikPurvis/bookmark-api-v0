@@ -17,9 +17,13 @@
     <h2>Reviews go here</h2>
 
     {% for review in reviews %}
-        <li> {{ review.subject }} </li>
+        <p><strong>{{ review.subject }} by <a href="/profile/{{ user.username }}">{{ user.username }}</a></strong> <small><i>(posted {{ review.created }})</small></i><br />
+            {{ review.text }}
+            <hr />
+        </p>
 
     {% empty %}
-        <p>No reviews for book</p>        
+        <p>No reviews for book</p>
+    {% endfor %}
 
 {% endblock %}

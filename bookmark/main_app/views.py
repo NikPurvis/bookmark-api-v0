@@ -127,12 +127,12 @@ def bookshelf_add(request, book_id):
 def reviews(request, book_id):
     user = User.objects.get(id=request.user.id)
     book_look = Book.objects.get(id=book_id)
-    reviews = Review.objects.all(title=book_id)
+    reviews = Review.objects.filter(book_reviewed=book_id)
 
-    return render(request, "reviews.html", { 
+    return render(request, "books/reviews.html", { 
         "user": user,
         "book": book_look,
-        "reviews": reviews } )
+        "reviews": reviews })
 
 
 #####################
