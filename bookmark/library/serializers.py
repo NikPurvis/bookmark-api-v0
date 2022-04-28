@@ -16,3 +16,4 @@ class BookSerializer(serializers.ModelSerializer):
         # define the fields to be returned
         fields = '__all__'
         # fields = ['title', 'author']
+
