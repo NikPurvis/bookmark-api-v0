@@ -24,5 +24,6 @@ from django.contrib import admin
 # Mapping views to URLs
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("main_app.urls"))
+    path("", include("main_app.urls")),
+    path("books/", include("library.urls"))
 ]
