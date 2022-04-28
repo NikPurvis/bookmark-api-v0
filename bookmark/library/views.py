@@ -11,7 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -36,8 +36,6 @@ class BooksView(ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-    # def get(self, request):
-
     def post(self, request):
         # """Create Books"""
         print(request.data)
@@ -49,7 +47,11 @@ class BooksView(ListCreateAPIView):
             return Response(book.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class BookDetailView(APIView):
+class BookDetailView(RetrieveUpdateDestroyAPIView):
+
+    serializer_class = BookSerializer
+    queryset = Book.objects.all()
+
     def get(self, request, pk):
         # """Show one book"""
         book = get_object_or_404(Book, pk=pk)
