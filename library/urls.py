@@ -2,15 +2,16 @@
 
 # Import dependencies
 from django.urls import path
-from .views import BooksView, BookDetailView
+from .views.book_views import Books, BookDetail
+# from .views.review_views import Reviews, ReviewDetail
+from .models.book import Book
 
 urlpatterns = [
-    # this was our path before using rest framework and serializers
-    # path('', index, name='books'),
-    path('', BooksView.as_view(), name='Books'),
-    # this was our path before using rest framework and serializers
-    # path('<int:pk>/', show, name='book-detail')
-    path('<int:pk>/', BookDetailView.as_view(), name='Book-detail')
+    
+    path("", Books.as_view(), name="Books"),
+    path("<int:pk>/", BookDetail.as_view(), name="Book-detail"),
+    # path("reviews", Reviews.as_view(), name="Reviews"),
+    # path("reviews/<int:pk", ReviewDetail.as_view(), name="Review-detail")
 ]
 
 

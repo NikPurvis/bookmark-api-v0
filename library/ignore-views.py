@@ -30,7 +30,7 @@ from django.contrib.auth.forms import UserCreationForm
 # Those urls are then registered in the frontend's urls.py.
 # In other words, they're functions that take in web requests and return web responses.
 
-class BooksView(ListCreateAPIView):
+class Books(ListCreateAPIView):
     # """Class for Index and Post"""
         # """Index Books"""
     queryset = Book.objects.all()
@@ -47,7 +47,7 @@ class BooksView(ListCreateAPIView):
             return Response(book.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class BookDetailView(RetrieveUpdateDestroyAPIView):
+class BookDetail(RetrieveUpdateDestroyAPIView):
 
     serializer_class = BookSerializer
     queryset = Book.objects.all()
