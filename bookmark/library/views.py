@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -29,14 +30,14 @@ from django.contrib.auth.forms import UserCreationForm
 # Those urls are then registered in the frontend's urls.py.
 # In other words, they're functions that take in web requests and return web responses.
 
-class BooksView(APIView):
+class BooksView(ListCreateAPIView):
     # """Class for Index and Post"""
-    def get(self, request):
         # """Index Books"""
-        books = Book.objects.all()
-        data = BookSerializer(books, many=True).data
-        return Response(data)
-    
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+    # def get(self, request):
+
     def post(self, request):
         # """Create Books"""
         print(request.data)
