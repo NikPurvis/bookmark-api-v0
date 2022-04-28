@@ -16,7 +16,7 @@ class Book(models.Model):
     olid = models.CharField(max_length=25)
 
     def __str__(self):
-        return f"ID {self.id} {self.title}"
+        return self.title
 
 
 class Bookshelf(models.Model):
@@ -29,7 +29,7 @@ class Bookshelf(models.Model):
     # Custom display for bookshelf when shown in the admin panel, so it won't just be primary key numbers
     def __str__(self):
         return "Bookshelf for %s" % self.owner
-    # Defining the absolute url, which will allow reverse() and  enable linking without hard coding
+    # Defining the absolute url, which will allow reverse() to return to the preceeding url, and enable linking without hard coding.
     def get_absolute_url(self):
         return reverse("bookshelf_detail", kwargs={"bookshelf_id": self.id})
 
@@ -48,10 +48,14 @@ class Review(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     subject = models.CharField(max_length=255)
     text = models.TextField()
-    star_rating = models.PositiveSmallIntegerField(choices=Stars.choices, help_text="How would you rate this book?")
+    star_rating = models.PositiveSmallIntegerField(choices=Stars.choices)
     have_finished = models.BooleanField(default=False)
 
     def __str__(self):
         return self.subject
+
+    def get_absolute_url(self):
+        return reverse("reviews", kwargs={"book_id": self.book_reviewed_id})
+
 
 

@@ -42,9 +42,11 @@ urlpatterns = [
     ##  REVIEWS
     #####################
     path("books/<int:book_id>/reviews", views.reviews, name="reviews"),
-    path("books/<int:book_id>/review/create/", views.ReviewCreate.as_view(), name="review_create"),
-    path("books/<int:book_id>/review/<int:review_id>/update/", views.ReviewUpdate.as_view(), name="review_update"),
-    path("books/<int:book_id>/review/<int:review_id>/delete/", views.ReviewDelete.as_view(), name="review_delete"),
+
+    # path("books/<int:book_id>/reviews", views.reviews, name="reviews"),
+    # path("books/<int:book_id>/reviews/create/", views.ReviewCreate.as_view(), name="review_create"),
+    # path("books/<int:book_id>/reviews/<int:pk>/update/", views.ReviewUpdate.as_view(), name="review_update"),
+    # path("books/<int:book_id>/reviews/<int:pk>/delete/", views.ReviewDelete.as_view(), name="review_delete"),
 
     #####################
     ##  BOOKCLUB

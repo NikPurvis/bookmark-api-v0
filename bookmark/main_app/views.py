@@ -3,7 +3,7 @@
 # Import dependencies
 from django import http
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import authenticate, login, logout
 from django.db import connection
@@ -22,22 +22,42 @@ from django.contrib.auth.forms import UserCreationForm
 # Those urls are registered in the project's (bookmark) urls.py.
 
 ##################
-##  VIEWS
+##  BASIC SITE
 ##################
-
-# Index view
+#
+# # Index view
+# def index(request):
+#     return render(request, "index.html")
 def index(request):
-    return render(request, "index.html")
+    books = Book.objects.all()
+    data = list(books.values())
+    return JsonResponse(data)
+
 
 # Profile view
 def profile(request, username):
     user = User.objects.get(username=username)
-    # review = Review.objects.filter(user=user)
 
     return render(request, "profile.html", { "username": username })
-    # , "review": reviews
+
+# Bookclub view
+def bookclub(request):
+    return HttpResponse("<h1>Bookclub page!</h1>")
+
+# Search view
+def search(request):
+    return HttpResponse("<h1>Search page!</h1>")
+
+# Book community view
+# def book_comm(request):
+#     return HttpResponse("<h1>Book community page!</h1>")
 
 
+
+##################
+##  BOOKS
+##################
+#
 # Book view
 def books_index(request):
     books = Book.objects.all().order_by("title")
@@ -49,21 +69,43 @@ def books_show(request, book_id):
     book = Book.objects.get(id=book_id)
     return render(request, "books/show.html", { "book": book })
 
-# Bookclub view
-def bookclub(request):
-    return HttpResponse("<h1>Bookclub page!</h1>")
 
-# Search view
-def search(request):
-    return HttpResponse("<h1>Search page!</h1>")
+# Defining classes to create forms using Django's built-in methods
+class BookCreate(CreateView):
+    # Bases the form on the books model
+    model = Book
+    # Include all the fields on the form
+    fields = "__all__"
+    
+    # It's not stricly necessary to call this method, but if we want to redirect to the details view page, we need to use this to get its primary key
+    def form_valid(self, form):
+        # Create an object from the form
+        self.object = form.save(commit=False)
+        # Save the object to the database
+        self.object.save()
+        # Redirect to its new detail page
+        return HttpResponseRedirect("/books/" + str(self.object.pk))
+
+class BookUpdate(UpdateView):
+    model = Book
+    fields = "__all__"
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.save()
+        return HttpResponseRedirect("/books/" + str(self.object.pk))
+
+class BookDelete(DeleteView):
+    model = Book
+    success_url = "/books"
 
 
+##################
+##  BOOKSHELF
+##################
+#
 # Bookshelf view
 def bookshelf(request, username):
-    print("******************")
-    print(connection.queries)
-    print("******************")
-
     # Check to see if the user already has a bookshelf.
     # If yes, move on.
     try:
@@ -118,27 +160,47 @@ def bookshelf_add(request, book_id):
     return HttpResponseRedirect("/bookshelf/" + str(request.user.username))
 
 
-# Book community view
-# def book_comm(request):
-#     return HttpResponse("<h1>Book community page!</h1>")
-
-
+#####################
+## REVIEWS
+#####################
+#
 # Book Reviews view
 def reviews(request, book_id):
     user = User.objects.get(id=request.user.id)
     book_look = Book.objects.get(id=book_id)
-    reviews = Review.objects.filter(book_reviewed=book_id)
+    reviews = Review.objects.filter(book_reviewed_id=book_id)
 
     return render(request, "books/reviews.html", { 
         "user": user,
         "book": book_look,
         "reviews": reviews })
 
+# # Creating a new review using Django's generic built-in forms
+# class ReviewCreate(CreateView):
+#     model = Review
+#     fields = "__all__"
+
+#     def form_valid(self, form):
+#         self.object = form.save(commit=False)
+#         self.object.save()
+#         return HttpResponseRedirect("books/<int:book_id>/reviews/" + str(self.object.pk))
+
+# # Editing a review via Django's form
+# class ReviewUpdate(UpdateView):
+#     model = Review
+#     fields = ["subject", "text", "star_rating", "have_finished"]
+#     success_url="/"
+
+# # Deleting a review via Django's form
+# class ReviewDelete(DeleteView):
+#     model = Review
+#     # success_url = "/books/<int:book_id>/reviews/"
+
 
 #####################
 ## AUTH
 #####################
-
+#
 # login view
 def login_view(request):
     # We can use the same view for multiple HTTP requests
@@ -191,59 +253,3 @@ def signup_view(request):
         form = UserCreationForm()
         return render(request, "auth/signup.html", { "form": form })
 
-
-##################
-##  FORMS
-##################
-
-# Defining classes to create forms using Django's built-in methods
-class BookCreate(CreateView):
-    # Bases the form on the books model
-    model = Book
-    # Include all the fields on the form
-    fields = "__all__"
-    
-    # It's not stricly necessary to call this method, but if we want to redirect to the details view page, we need to use this to get its primary key
-    def form_valid(self, form):
-        # Create an object from the form
-        self.object = form.save(commit=False)
-        # Save the object to the database
-        self.object.save()
-        # Redirect to its new detail page
-        return HttpResponseRedirect("/books/" + str(self.object.pk))
-
-class BookUpdate(UpdateView):
-    model = Book
-    fields = "__all__"
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.save()
-        return HttpResponseRedirect("/books/" + str(self.object.pk))
-
-class BookDelete(DeleteView):
-    model = Book
-    success_url = "/books"
-
-
-class ReviewCreate(CreateView):
-    model = Review
-    fields = "__all__"
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.save()
-        return HttpResponseRedirect("books/<int:book_id>/reviews/" + str(self.object.pk))
-
-class ReviewUpdate(UpdateView):
-    model = Review
-    fields = "__all__"
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.save()
-        return HttpResponseRedirect("books/<int:book_id>/reviews/" + str(self.object.pk))
-
-class ReviewDelete(DeleteView):
-    model = Review
-    success_url = "/books/<int:book_id>/reviews/"
