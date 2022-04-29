@@ -1,3 +1,5 @@
+# api/admin.py
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
@@ -15,17 +17,17 @@ class UserAdmin(BaseUserAdmin):
     # fieldset including the list of fields.
     # Below we're saying create 4 sections, the first section has no name specified
     fieldsets = (
-      (None, {'fields': ('email', 'password')}),
-      ('Permissions',
-          {
-              'fields': (
-                  'is_active',
-                  'is_staff',
-                  'is_superuser',
-              )
-          }
-      ),
-      ('Dates', {'fields': ('last_login',)}),
+        (None, {'fields': ('email', 'password')}),
+        ('Permissions',
+            {
+                'fields': (
+                    'is_active',
+                    'is_staff',
+                    'is_superuser',
+                )
+            }
+        ),
+        ('Dates', {'fields': ('last_login',)}),
     )
     # add_fieldsets is similar to fieldsets but it is used specifically
     # when you create a new user:
